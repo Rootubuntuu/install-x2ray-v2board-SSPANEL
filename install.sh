@@ -1,6 +1,6 @@
 #!/binstall
 
-# 控制台字体
+# console font
 red() {
 	echo -e "\033[31m\033[01m$1\033[0m"
 }
@@ -13,7 +13,7 @@ yellow() {
 	echo -e "\033[33m\033[01m$1\033[0m"
 }
 
-# 判断系统及定义系统安装依赖方式
+# Judging the system and defining system installation dependencies
 REGEX=("debian" "ubuntu" "centos|red hat|kernel|oracle linux|alma|rocky" "'amazon linux'")
 RELEASE=("Debian" "Ubuntu" "CentOS" "CentOS" "Alpine")
 PACKAGE_UPDATE=("apt -y update" "apt -y update" "yum -y update" "yum -y update")
@@ -30,13 +30,13 @@ for ((int = 0; int < ${#REGEX[@]}; int++)); do
 	[[ $(echo "$SYS" | tr '[:upper:]' '[:lower:]') =~ ${REGEX[int]} ]] && SYSTEM="${RELEASE[int]}" && [[ -n $SYSTEM ]] && break
 done
 
-[[ -z $SYSTEM ]] && red "不支持VPS的当前系统，请使用主流的操作系统" && exit 1
+[[ -z $SYSTEM ]] && red "The current system that does not support VPS, please use a mainstream operating system" && exit 1
 
 archAffix() {
 	case "$(uname -m)" in
   x86_64 | x64 | amd64) return 0 ;;
 	aarch64 | arm64) return 0 ;;
-	*) red "不支持的CPU架构，脚本即将退出！" ;;
+	*) red "Unsupported CPU architecture, the script is about to exit!" ;;
 	esac
 
 	return 0
@@ -56,22 +56,22 @@ install_XrayR() {
 
 makeConfig() {
     echo "---------------"
-	read -p "Nhập loại website của bạn ( V2board, SsPanel ) :" airPanel
+	read -p "Enter your website type ( V2board, SsPanel ) :" airPanel
 	echo "---------------"
-	read -p "Nhập link website ( https://2lands.me ) :" airWebsite
+	read -p "Enter website link ( https://V2board.com ) :" airWebsite
 	echo "---------------"
-	read -p "API key của web :" airAPIKey
+	read -p "Web API key :" airAPIKey
 	echo "---------------"
-	read -p "Số node ID :" makeNodeID
+	read -p "Number of nodes ID :" makeNodeID
 	echo "---------------"
-	read -p "Giới hạn số thiết bị, nếu không muốn giới hạn hãy nhập 0 :" makeLimitdevice
+	read -p "Limit the number of devices, if you don't want to limit, enter 0 :" makeLimitdevice
 	echo "---------------"
-	read -p "Giới hạn tốc độ, nếu không muốn giới hạn nhập 0 :" makeSpeedlimit
+	read -p "Speed limit, if you don't want to limit enter 0 :" makeSpeedlimit
 	echo "---------------"
 
 	rm -f /etc/XrayR/config.yml
 	if [[ -z $(~/.acme.sh/acme.sh -v 2>/dev/null) ]]; then
-		curl https://get.acme.sh | sh -s email=script@github.com
+		curl https://get.acme.sh | sh -s email=rootubuntu@outlook.com
 		source ~/.bashrc
 		bash ~/.acme.sh/acme.sh --upgrade --auto-upgrade
 	fi
@@ -134,7 +134,7 @@ Nodes:
           ALICLOUD_SECRET_KEY: bbb
 EOF
 	xrayr restart
-	green "Đã cài đặt và cập nhật XrayR với bảng điều khiển thành công！"
+	green "Installed and updated XrayR with console successfully！'Power By Configserver_pro'"
 	exit 1
 }
 
